@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Page - DevTools Practice</title>
+    <style>
+        /* Intentional CSS problems for practice */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+
+        /* Problem 1: Fixed width causes horizontal scroll on mobile */
+        .container {
+            width: 1200px; /* Should be max-width with padding */
+            margin: 0 auto;
+        }
+
+        /* Problem 2: Poor contrast */
+        .header {
+            background: #ccc;
+            color: #ddd; /* Poor contrast ratio */
+            padding: 20px;
+        }
+
+        /* Problem 3: Overlapping elements */
+        .hero {
+            height: 400px;
+            background: #3498db;
+            position: relative;
+        }
+
+        .hero-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 48px;
+            z-index: 1;
+        }
+
+        .hero-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 2; /* This overlaps the text - wrong z-index */
+        }
+
+        /* Problem 4: Inconsistent spacing */
+        .section {
+            padding: 20px; /* Mobile */
+        }
+
+        .section:nth-child(2) {
+            padding: 40px; /* Desktop - but no media query */
+        }
+
+        .section:nth-child(3) {
+            padding: 15px; /* Inconsistent */
+        }
+
+        /* Problem 5: Button without proper states */
+        .button {
+            background: blue;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            /* Missing hover, focus, active states */
+        }
+
+        /* Problem 6: CSS conflict */
+        .card {
+            background: white;
+            border: 1px solid #ddd;
+        }
+
+        .special-card {
+            background: red; /* Overrides white */
+        }
+
+        .card {
+            background: yellow !important; /* This breaks everything */
+        }
+
+        /* Problem 7: Overflow */
+        .text-box {
+            width: 300px;
+            white-space: nowrap;
+            /* Missing overflow: hidden or text-overflow: ellipsis */
+        }
+
+        /* Problem 8: No responsive design */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            /* No media queries - breaks on mobile */
+        }
+
+        .grid-item {
+            background: #ecf0f1;
+            padding: 20px;
+            text-align: center;
+        }
+
+        /* Problem 9: Font loading */
+        @font-face {
+            font-family: 'CustomFont';
+            src: url('/fonts/missing-font.woff2'); /* 404 error */
+        }
+
+        .custom-text {
+            font-family: 'CustomFont', sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1>Test Website - DevTools Übung</h1>
+            <p>Diese Seite hat absichtlich CSS-Probleme für DevTools Training</p>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h2 class="hero-text">Hero Text (versteckt hinter Bild)</h2>
+        <!-- Image will cause 404 -->
+        <img src="/missing-image.jpg" alt="Hero" class="hero-image" onerror="this.style.display='none'">
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2>Sektion 1 - Inconsistent Padding</h2>
+            <p>Diese Sektion hat 20px padding.</p>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2>Sektion 2 - Inconsistent Padding</h2>
+            <p>Diese Sektion hat 40px padding.</p>
+            <button class="button" onclick="testFunction()">Button ohne Hover State</button>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2>Sektion 3 - Inconsistent Padding</h2>
+            <p>Diese Sektion hat 15px padding.</p>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2>Card Layout</h2>
+            <div class="card">Normal Card</div>
+            <div class="card special-card">Special Card (CSS Konflikt mit !important)</div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2>Text Overflow Problem</h2>
+            <div class="text-box">
+                Dies ist ein sehr langer Text der über die Box hinausgeht und einen Overflow verursacht
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2>Grid Layout (Nicht Responsive)</h2>
+            <div class="grid">
+                <div class="grid-item">Item 1</div>
+                <div class="grid-item">Item 2</div>
+                <div class="grid-item">Item 3</div>
+                <div class="grid-item">Item 4</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="custom-text">Custom Font Test (404 Error)</h2>
+            <p class="custom-text">Dieser Text verwendet eine Font die nicht existiert.</p>
+        </div>
+    </section>
+
+    <script>
+        // Intentional JavaScript errors for Console practice
+
+        console.log('Page loaded');
+
+        // Error 1: Undefined variable
+        console.log(undefinedVariable); // ReferenceError
+
+        // Error 2: Function doesn't exist
+        function testFunction() {
+            nonExistentFunction(); // ReferenceError
+        }
+
+        // Error 3: Null reference
+        const element = document.querySelector('.non-existent-class');
+        element.addEventListener('click', () => {}); // TypeError
+
+        // Warning: Deprecated feature
+        console.warn('This is a warning message');
+
+        // Network error simulation
+        fetch('/api/missing-endpoint')
+            .catch(err => console.error('Network Error:', err));
+
+        // Performance issue: Expensive operation
+        for (let i = 0; i < 100000; i++) {
+            document.body.innerHTML += ''; // Causes layout thrashing
+        }
+    </script>
+</body>
+</html>
